@@ -120,7 +120,7 @@ class _Home extends State<Home> {
       backgroundColor: Color(c6),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color.fromARGB(255, 15, 90, 202),
+        backgroundColor: Color.fromARGB(255, 46, 140, 248),
         leading: (selectedNoteIds.length > 0
             ? IconButton(
                 onPressed: () {
@@ -170,12 +170,8 @@ class _Home extends State<Home> {
       //Floating Button
       floatingActionButton: (selectedNoteIds.length == 0
           ? FloatingActionButton(
-              child: const Icon(
-                Icons.add,
-                color: Color.fromARGB(255, 255, 255, 255),
-              ),
               tooltip: 'New Notes',
-              backgroundColor: Color.fromARGB(255, 218, 8, 8),
+              backgroundColor: Color.fromARGB(255, 46, 140, 248),
               onPressed: () {
                 Navigator.pushNamed(
                   context,
@@ -189,6 +185,10 @@ class _Home extends State<Home> {
                 });
                 return;
               },
+              child: const Icon(
+                Icons.add,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
             )
           : null),
 
@@ -202,16 +202,25 @@ class _Home extends State<Home> {
                 child: Stack(
                   children: <Widget>[
                     // Display Notes
-                    AllNoteLists(
-                      snapshot.data,
-                      this.selectedNoteIds,
-                      afterNavigatorPop,
-                      handleNoteListLongPress,
-                      handleNoteListTapAfterSelect,
-                    ),
+                    notesData.isNotEmpty
+                        ? AllNoteLists(
+                            snapshot.data,
+                            this.selectedNoteIds,
+                            afterNavigatorPop,
+                            handleNoteListLongPress,
+                            handleNoteListTapAfterSelect,
+                          )
+                        : const Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Center(
+                              child: Icon(Icons.hourglass_empty_rounded,
+                                  color: Color.fromARGB(255, 15, 122, 117),
+                                  size: 200),
+                            ),
+                          ),
 
                     // Bottom Action Bar when Long Pressed
-                    (selectedNoteIds.length > 0
+                    (selectedNoteIds.isNotEmpty
                         ? BottomActionBar(
                             handleDelete: handleDelete,
                             handleShare: handleShare)
@@ -220,11 +229,11 @@ class _Home extends State<Home> {
                 ),
               );
             } else if (snapshot.hasError) {
-              return Center(
+              return const Center(
                 child: Text('Error found'),
               );
             } else {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(
                   backgroundColor: Color(c3),
                 ),

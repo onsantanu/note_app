@@ -22,7 +22,7 @@ class _NoteEntry extends State<NoteEntry> with WidgetsBindingObserver {
   void didChangeMetrics() {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     if (bottomInset <= 0.0) {
-      _textFieldFocusNode.unfocus();
+      // _textFieldFocusNode.unfocus();
     }
   }
 
